@@ -1,0 +1,17 @@
+[
+  {
+    "name": "Apples",
+    "quantity": 3,
+    "“createdOn”": "”2020-01-01”"
+  },
+  {
+    "name": "Oranges",
+    "quantity": 7,
+    "“createdOn”": "”2020-02-01”"
+  },
+  {
+    "name": "Pomegranates",
+    "quantity": 55,
+    "“createdOn”": "”2020-01-10”"
+  }
+]
