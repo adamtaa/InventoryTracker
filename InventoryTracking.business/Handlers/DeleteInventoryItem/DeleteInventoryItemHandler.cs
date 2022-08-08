@@ -1,4 +1,6 @@
-﻿using MediatR;
+﻿using InventoryTracker.Data.Repositories;
+using InventoryTracking.business.Models;
+using MediatR;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -9,9 +11,35 @@ namespace InventoryTracking.business.Handlers.DeleteInventoryItem
 {
     public class DeleteInventoryItemHandler : IRequestHandler<DeleteInventoryItemRequest, string>
     {
-        Task<string> IRequestHandler<DeleteInventoryItemRequest, string>.Handle(DeleteInventoryItemRequest request, CancellationToken cancellationToken)
+        private readonly IInventoryItemRepository _inventoryItemRepository;
+
+        public DeleteInventoryItemHandler(IInventoryItemRepository inventoryItemRepository)
         {
-            throw new NotImplementedException();
+            _inventoryItemRepository = inventoryItemRepository;
         }
+
+        async Task<string> IRequestHandler<DeleteInventoryItemRequest, string>.Handle(DeleteInventoryItemRequest request, CancellationToken cancellationToken)
+        {
+            var InventoryItemToDelete = await _inventoryItemRepository.GetByName(request.ItemName);
+
+            if(InventoryItemToDelete == null)
+            {
+                return request.ItemName;
+            }
+            
+            try
+            {
+                var deletedName = _inventoryItemRepository.Delete(request.ItemName);
+
+                return deletedName.ToString();
+            }
+            catch(Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+
+        }
+
+        
     }
 }

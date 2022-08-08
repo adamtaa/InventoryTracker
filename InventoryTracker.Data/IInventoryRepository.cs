@@ -12,10 +12,8 @@ namespace InventoryTracker.Data
 
         Task<InventoryItem> GetByName(string itemName);
         Task<InventoryItem> CreateInventoryItem(InventoryItem inventoryItem);
-        InventoryItem Create(InventoryItem item);
-
         Task<InventoryItem> UpdateInventoryItem(InventoryItem inventoryItem);
-        Task<string> Delete(InventoryItem inventoryItem);
+        Task<InventoryItem> Delete(InventoryItem inventoryItem);
         
         Task<IEnumerable<InventoryItem>> Search();
 

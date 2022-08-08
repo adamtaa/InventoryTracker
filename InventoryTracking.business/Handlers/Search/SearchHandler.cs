@@ -1,4 +1,5 @@
-﻿using InventoryTracker.Data.Repositories;
+﻿using InventoryTracker.Data.Entities;
+using InventoryTracker.Data.Repositories;
 using InventoryTracking.business.Models;
 using MediatR;
 using System;
@@ -20,7 +21,22 @@ namespace InventoryTracking.business.Handlers.Search
         public async Task<List<InventoryItemModel>> Handle(SearchRequest request, CancellationToken cancellationToken)
         {
             string filter = null;
-            return new List<InventoryItemModel>(await _inventoryItemRepository.Search(filter));
+            var InventoryItems = new List<InventoryItem>(await _inventoryItemRepository.Search(filter));
+
+            List<InventoryItemModel> IimList = new List<InventoryItemModel>();
+
+            foreach (var listItem in InventoryItems)
+            {
+                InventoryItemModel Iim = new InventoryItemModel();
+
+                Iim.name = listItem.name;
+                Iim.quantity = listItem.quantity;
+                Iim.createdOn = listItem.createdOn;
+
+                IimList.Add(Iim);
+            }
+
+            return IimList;
         }
 
     }

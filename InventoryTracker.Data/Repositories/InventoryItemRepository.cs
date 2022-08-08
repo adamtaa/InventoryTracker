@@ -13,7 +13,7 @@ namespace InventoryTracker.Data.Repositories
             throw new NotImplementedException();
         }
 
-        Task<InventoryItem> IInventoryItemRepository.DeleteByName(string itemName)
+        Task<string> IInventoryItemRepository.Delete(string itemName)
         {
             throw new NotImplementedException();
         }

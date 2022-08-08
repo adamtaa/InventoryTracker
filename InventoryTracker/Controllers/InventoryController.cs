@@ -1,4 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using InventoryTracking.business.Handlers.CreateInventoryItem;
+using InventoryTracking.business.Handlers.DeleteInventoryItem;
+using InventoryTracking.business.Handlers.UpdateInventoryItem;
+using InventoryTracking.business.Models;
+using MediatR;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +17,12 @@ namespace InventoryTracker.Controllers
     [ApiController]
     public class InventoryController : ControllerBase
     {
+        private readonly IMediator _mediator;
+        public InventoryController(IMediator mediator)
+        {
+            _mediator = mediator;
+        }
+
         // GET: api/<InventoryController>
         [HttpGet]
         public IEnumerable<string> Get()
@@ -19,7 +30,7 @@ namespace InventoryTracker.Controllers
             return new string[] { "value1", "value2" };
         }
 
-        // GET api/<InventoryController>/apple
+        // GET api/<InventoryController>/5
         [HttpGet("{name}")]
         public string Get(string name)
         {
@@ -28,30 +39,30 @@ namespace InventoryTracker.Controllers
 
         // POST api/<InventoryController>
         [HttpPost]
-        public void Post([FromBody] string value)
+        public async Task<IActionResult> CreateInventoryItem(CreateInventoryItemRequest request)
         {
-            //If the resource identifier is "/inventory"
+            var response = await this._mediator.Send(request);
 
-            //The input can be a single entry or multiple.
-                //▪ Handle updates and creation of documents based on inventory store.
+            if (response.IsSuccessful)
+            {
+                return this.Ok(response);
+            }
+            return this.BadRequest(response.Message);
         }
 
         // PUT api/<InventoryController>/5
         [HttpPut("{name}")]
-        public void Put(int id, [FromBody] string value)
+        public async Task<List<InventoryItemModel>> UpdateInventoryItem(UpdateInventoryItemRequest request)
         {
-            //If the resource identifier is "/inventory/itemname"
-
-            //Update the entry if found.
-
-            //Create new record if not found
+            return await _mediator.Send(request);
         }
 
-        // DELETE api/<InventoryController>/apple
+        // DELETE api/<InventoryController>/5
         [HttpDelete("{name}")]
-        public void Delete(int id)
+        public async Task<InventoryItemModel> Delete(DeleteInventoryItemRequest request)
         {
-            //If the resource identifier is "/inventory/itemname", the named item is deleted
+            var _request = new DeleteInventoryItemRequest(request.ItemName);
+            return await _mediator.Send(_request);
         }
     }
 }

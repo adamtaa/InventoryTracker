@@ -1,4 +1,4 @@
-﻿using InventoryTracking.business;
+﻿using InventoryTracker.Data.Entities;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -11,12 +11,12 @@ namespace InventoryTracker.Data
         //break this out into config file
         private string jsonFile = @"C:\Users\adamt\source\repos\InventoryTracker\InventoryTracker\Resources\itemList.json";
 
-        InventoryItem IInventoryRepository.Create(InventoryItem item)
+        Task<InventoryItem> IInventoryRepository.CreateInventoryItem(InventoryItem inventoryItem)
         {
             throw new NotImplementedException();
         }
 
-        void IInventoryRepository.Delete(string itemName)
+        Task<InventoryItem> IInventoryRepository.Delete(InventoryItem inventoryItem)
         {
             throw new NotImplementedException();
         }
@@ -26,18 +26,19 @@ namespace InventoryTracker.Data
             throw new NotImplementedException();
         }
 
-        InventoryItem IInventoryRepository.GetByName(string itemName)
+        Task<InventoryItem> IInventoryRepository.GetByName(string itemName)
         {
             throw new NotImplementedException();
         }
 
-        void IInventoryRepository.Update(InventoryItem item)
+        Task<IEnumerable<InventoryItem>> IInventoryRepository.Search()
         {
             throw new NotImplementedException();
         }
 
-        public async Task<IActionResult> Search() 
-        { 
+        Task<InventoryItem> IInventoryRepository.UpdateInventoryItem(InventoryItem inventoryItem)
+        {
+            throw new NotImplementedException();
         }
     }
 }
