@@ -59,7 +59,7 @@ namespace InventoryTracker.Controllers
 
         // DELETE api/<InventoryController>/5
         [HttpDelete("{name}")]
-        public async Task<InventoryItemModel> Delete(DeleteInventoryItemRequest request)
+        public async Task<string> Delete(DeleteInventoryItemRequest request)
         {
             var _request = new DeleteInventoryItemRequest(request.ItemName);
             return await _mediator.Send(_request);
