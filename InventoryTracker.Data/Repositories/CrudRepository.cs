@@ -1,12 +1,25 @@
-﻿using System;
+﻿using AutoMapper;
+using InventoryTracker.Utility.Factories;
+using Microsoft.EntityFrameworkCore.Storage;
+using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace InventoryTracker.Data.Repositories
 {
-    public class CrudRepository : ICrudRepository
+    public class CrudRepository<TDbContext> : ICrudRepository where TDbContext : DbContext
     {
+        private IMapper _mapper;
+        private TDbContext _dbContext;
+        private readonly DbConnectionFactory _dbConnectionFactory;
+        private IDbContextTransaction _currentTransaction;
+
+        public CrudRepository()
+        {
+        }
+
         Task<bool> ITransactionalRepository.BeginTransaction()
         {
             throw new NotImplementedException();
